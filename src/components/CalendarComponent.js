@@ -28,7 +28,17 @@ const CalendarComponent = ({ history, location, match, appointments, appointment
     useEffect(() => {
         if (appointments && appointments.length !== 0) {
             localStorage.setItem('appointments', JSON.stringify(appointments));
-            setAppointmentsArr(JSON.parse(localStorage.getItem('appointments')));
+            setAppointmentsArr(JSON.parse(localStorage.getItem('appointments')).sort(function(a, b) {
+                var timeA = a.time; // ignore upper and lowercase
+                var timeB = b.time; // ignore upper and lowercase
+                if (timeA < timeB) {
+                  return -1;
+                }
+                if (timeA > timeB) {
+                  return 1;
+                }
+                return 0;
+              }));
         }
     }, [appointments]);
 
